@@ -7,6 +7,10 @@ import { NavbarComponent } from './vics/vics_layout/navbar/navbar.component';
 import { SidebarComponent } from './vics/vics_layout/sidebar/sidebar.component';
 import { MainlayoutComponent } from './vics/vics_layout/mainlayout/mainlayout.component';
 import { FooterComponent } from './vics/vics_layout/footer/footer.component';
+import { SafeurlPipe } from './pipe/safeurl.pipe';
+import { FormsModule } from '@angular/forms';
+import { CompletionpageComponent } from './vics/completionpage/completionpage.component';
+
 
 @NgModule({
   declarations: [
@@ -14,11 +18,14 @@ import { FooterComponent } from './vics/vics_layout/footer/footer.component';
     NavbarComponent,
     SidebarComponent,
     MainlayoutComponent,
-    FooterComponent
+    FooterComponent,
+    SafeurlPipe,
+    CompletionpageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
