@@ -1,0 +1,26 @@
+    <div class="container py-2">
+    <h2 class="text-center" style="color: #AF2532;">
+    Citizen's Charter: {{ selectedOffice || 'Select Office' }}
+    </h2>
+
+
+            <div class="responsive-pdf-container rounded position-relative text-center">
+                <!-- Placeholder when no PDF  -->
+                <div *ngIf="!pdfSrc" class="placeholder-text">
+                    <p>The citizen's charter for the selected office will be displayed here.</p>
+                    <p>(Pdf here)</p>  
+                </div>
+
+                <!-- PDF Viewer file is selected -->
+                <iframe *ngIf="pdfSrc" [src]="pdfSrc | safeurl"
+                frameborder="0" width="100%" height="600"class="rounded"></iframe>
+            </div>
+
+            <div class="d-flex justify-content-between gap-2 mt-3">
+                     <!-- Footer -->
+      <app-footer></app-footer>
+              <!--  <button class="btn custom-btn px-4">BACK TO INFO HUB</button> -->
+                <button class="btn custom-btn px-4" routerLink="/welcomepage">HOME</button>
+            </div>    
+    </div>
+  

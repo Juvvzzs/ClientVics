@@ -1,0 +1,166 @@
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+/* Certificate page styles */
+.certificate-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
+}
+
+.question-text {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 50px;
+}
+
+.options-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.yes-btn, .no-btn {
+    padding: 20px 60px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    min-width: 200px;
+}
+
+.yes-btn {
+    background-color: #b22234;
+}
+
+.no-btn {
+    background-color: #e27c7c;
+}
+
+.back-container {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+}
+
+/* Processing page styles */
+.processing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #b22234;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.processing-text {
+    font-size: 20px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.instruction-text {
+    font-size: 18px;
+    color: #666;
+    margin-top: 30px;
+}
+
+.border-bottom {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    margin-top: 100px;
+}
+
+/* Completion page styles */
+.success-icon {
+    color: #4CAF50;
+    font-size: 60px;
+    margin-bottom: 30px;
+}
+
+.completion-heading {
+    color: #4CAF50;
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+.thank-you-text {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.department-name {
+    color: #b22234;
+    font-weight: bold;
+}
+
+.reference-text {
+    font-size: 18px;
+    color: #333;
+    margin: 20px 0;
+}
+
+.reference-number {
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.finish-btn {
+    background-color: #b22234;
+    color: white;
+    padding: 15px 70px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.checkmark {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 30px;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .offices-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .offices-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    h1 {
+        font-size: 30px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+} 

@@ -1,0 +1,92 @@
+.nav-link {
+    color: #AF2532; /* default link color */
+    border-radius: 12px;
+    transition: background-color 0.3s;
+  }
+  
+  .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .active-link {
+    background-color: #AF2532; /* light background like your image */
+    color: #010009 !important;  /* active text/icon color */
+    font-weight: 500;
+  }
+  
+ .custom-search-bar {
+    border: 2px solid #AF2532;
+    border-radius: 50px;
+    overflow: hidden;
+  }
+
+  .custom-search-bar .input-group-text {
+    background-color: white;
+    border: none;
+    color: #AF2532;
+  }
+
+  .custom-search-bar .form-control {
+    border: none;
+    color: #AF2532;
+  }
+
+  .custom-search-bar .form-control:focus {
+    box-shadow: none;
+  }
+
+  .custom-search-bar i {
+    color: #AF2532;
+  }
+
+  ::placeholder {
+    color: #AF2532;
+    opacity: 1; /* Make sure it's fully visible */
+  }
+
+  
+  .offices-btn {
+  border: 2px solid #ad0e0e;
+  color: #AF2532;
+  border-radius: 6px;
+  background-color: transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.offices-btn:hover {
+  background-color: #AF2532;
+  color: white;
+}
+
+  .scrollable-buttons {
+  max-height: 73vh;
+  overflow-y: auto;
+  scrollbar-width: none;        
+  -ms-overflow-style: none;    
+}
+
+.scrollable-buttons::-webkit-scrollbar {
+  display: none;         
+}
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.active-btn {
+  background-color: #AF2532; /* Blue highlight */
+  color: rgb(59, 26, 26);
+  font-weight: bold;
+}
+
+.inactive-btn:hover {
+  background-color: #2e1616;
+}
