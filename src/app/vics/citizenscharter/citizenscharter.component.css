@@ -1,0 +1,54 @@
+custom-space-between{
+    display:flex; 
+    justify-content: space-between;
+    align-items: center;
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.responsive-pdf-container {
+  width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+}
+.responsive-pdf-container {
+  position: relative;
+  height: 75vh; 
+  overflow: hidden;
+  width: 100%;
+  border: 2px dashed #AF2532;
+  border-radius: 0.5rem;
+  background-color: #f4eaea;
+  padding-top: 0;
+}
+
+.responsive-pdf-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.placeholder-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #AF2532;
+  font-size: 1.25rem;
+  font-weight: 500;
+  pointer-events: none;
+}
+  .custom-btn {
+    border: 2px solid #AF2532;
+    color: #fcfcfc;
+    border-radius: 6px;
+    background-color: #AF2532;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+  }

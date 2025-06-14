@@ -1,0 +1,116 @@
+<div class="container-fluid d-flex flex-column min-vh-100 p-0">
+  <app-navbar> </app-navbar> 
+  <!-- Main Content -->
+  <div class="container text-center flex-grow-1 d-flex flex-column justify-content-center">
+    <!-- Logo -->
+    <div class="mb-4">
+      <img src="assets/logo/VICS-logo-red.png" alt="VCG Logo" class="img-fluid" style="max-height: 100px;">
+    </div>
+
+    <!-- Welcome Message -->
+    <h1 class="display-6 fw-bold mb-3" style="color: #AF2532;">Welcome!</h1>
+    <p class="lead mb-4">Please select an option to begin your interaction.</p>
+
+
+    <!-- Options -->
+    <div class="row justify-content-center gx-2 mt-2">
+      <!-- Register Visit -->
+      <div class="col-auto d-flex flex-column align-items-center">
+        <div
+          class="card shadow-sm hover-effect"
+          (click)="showModal = true"
+          style="width: 300px; height: 180px; border-radius: 5% !important; cursor: pointer;"
+        >
+          <div class="card-body d-flex align-items-center justify-content-center p-0"
+               style="background-color: #c53f4c; border-radius: 1rem; height: 80%;">
+            <i class="bi bi-journal-text" style="color: #ead3d6; font-size: 4rem;"></i>
+          </div>
+        </div>
+        <p class="mt-2 mb-0 small" style="color: #AF2532; font-size:20px;">REGISTER YOUR VISIT</p>
+      </div>
+
+      <!-- Office Info -->
+      <div class="col-auto d-flex flex-column align-items-center">
+        <div
+          class="card shadow-sm hover-effect"
+          routerLink="/visitors-charter"
+          style="width: 300px; height: 180px; border-radius: 5% !important; cursor: pointer;">
+          <div class="card-body d-flex align-items-center justify-content-center p-0" 
+               style="background-color: #e67782; border-radius: 1rem; height: 80%;">
+            <i class="bi bi-building" style="color: #ead3d6; font-size: 4rem;"></i>
+          </div>
+        </div>
+        <p class="mt-2 mb-0 small" style="color: #AF2532; font-size:20px;">OFFICE INFORMATION</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+ <!-- Terms and Conditions Modal -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-box">
+  <main>
+        <h1>Data Privacy Usage Consent</h1>
+        
+        <div class="consent-container">
+            <div class="terms-box">
+                <div class="welcome-text">
+                    <h2>Welcome to the Visitor Information and Certification System.</h2>
+                    <p>Before you proceed, please read and agree to the following terms regarding the collection and processing of your personal information.</p>
+                </div>
+                
+                <h3>1. Information We Collect</h3>
+                <p>To use this eVisitor kiosk, we may collect the following personal information from you:</p>
+                <ul>
+                    <li>Full Name</li>
+                    <li>Middle Initial (if provided)</li>
+                    <li>Position (if provided)</li>
+                    <li>Agency/Organization (if provided)</li>
+                    <li>Purpose of your visit (selected from a list or entered manually)</li>
+                    <li>Date and time of your visit</li>
+                </ul>
+                <p>Some information, such as Middle Initial, Position, and Agency/Organization, can be left blank.</p>
+                <p>Please note that CCTV cameras may be in operation within these premises for security purposes.</p>
+                <p>We only collect information necessary for visitor registration and management.</p>
+
+                <h3>2. Purpose of Collection and Use</h3>
+                <p>Your personal information will be collected and used for the following purposes:</p>
+                <ul>
+                    <li>To register and log your visit to our premises.</li>
+                    <li>To manage visitor access for security and safety.</li>
+                    <li>To facilitate your transactions or inquiries with the relevant office/department.</li>
+                    <li>To issue a Certificate of Appearance, if you request one.</li>
+                    <li>To contact you, if necessary, regarding your visit or in case of emergencies.</li>
+                    <li>To help us improve our services and visitor management processes.</li>
+                </ul>
+
+                <h3>3. Data Storage, Security, and Retention</h3>
+                <p>We are committed to ensuring the security of your personal information. Your data will be stored in a secure environment and protected against unauthorized access, disclosure, alteration, or destruction. We will retain your information only for as long as necessary to fulfill the purposes outlined above, or as required by applicable laws and regulations.</p>
+
+                <h3>4. Your Rights</h3>
+                <p>As a data subject, you have rights under applicable data privacy laws, including the right to access and request correction of your personal information. For any concerns or to exercise your rights, please approach our designated personnel or the Help Desk.</p>
+
+                <h3>5. Consent</h3>
+                <p>By clicking the "Agree & Continue" button below, you acknowledge that you have read, understood, and voluntarily agree to the collection, processing, use, and storage of your personal information as described in this consent form for the purposes of using this eVisitor system.</p>
+                <p>If you do not agree to these terms, please click "Decline & Exit". You may then approach our staff for alternative ways to register your visit or obtain information.</p>
+            </div>
+        </div>
+        
+    </main>
+          <!-- Checkbox -->
+          <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="acceptCheckbox" [(ngModel)]="accepted" />
+            <label class="form-check-label" for="acceptCheckbox">
+              Accept Terms and Conditions
+            </label>
+          </div>
+
+          <!-- Buttons -->
+          <div class="d-flex justify-content-end mt-4 gap-2">
+            <button class="btn btn-outline-secondary" (click)="showModal = false">Cancel</button>
+            <button class="btn btn-danger" [disabled]="!accepted" (click)="acceptTerms()">Proceed</button>
+          </div>
+    </div>
+</div>
+</div>

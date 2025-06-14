@@ -1,1 +1,14 @@
-<p>mainlayout works!</p>
+<div class="container-fluid min-vh-100 d-flex flex-column p-0">
+  <!-- Header -->
+  <app-navbar></app-navbar>
+  <div class="row flex-grow-1 w-100 m-0">
+    <!-- Sidebar -->
+    <div class="col-md-2 bg-light p-0 overflow-auto">
+      <app-sidebar></app-sidebar>
+    </div>
+    <!-- Routed content -->
+    <div class="col-md-10 p-3 overflow-auto">
+      <app-citizenscharter></app-citizenscharter>
+    </div>
+  </div>
+</div>
