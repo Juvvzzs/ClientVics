@@ -1,1 +1,56 @@
-<p>selectoffice works!</p>
+<body>
+ 
+    <app-navbar></app-navbar> 
+  <main>
+    <h2 style="color: #AF2532; font-size: 40px; text-decoration: solid;">Select Office</h2>
+    <h2>Which office are you visiting or need information about?</h2>
+    
+    <div class="search-container">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search offices" [(ngModel)]="searchText">
+      </div>
+    </div>
+
+    <div *ngIf="filteredOffices.length === 0" class="text-muted mt-3">
+      No matching office found.
+    </div>
+
+    <div class="offices-grid">
+      <div class="office-container" *ngFor="let office of pagedOffices">
+        <button 
+          class="office-button"
+          [class.active]="office.id === selectedOfficeId"
+          (click)="selectOffice(office.id)" routerLink="/visitor-info">
+          {{ office.name }} 
+        </button>
+      </div>
+    </div>
+
+     
+    <div class="pagination">
+        <button 
+            class="next-button" 
+            (click)="backPage()" 
+            [disabled]="currentPage === 1">
+            Back <span></span>
+        </button>
+      <button 
+            *ngFor="let page of [].constructor(totalPages); let i = index" 
+            class="page-button" 
+            [class.active]="currentPage === (i + 1)"
+            (click)="goToPage(i + 1)">
+            {{ i + 1 }}
+      </button>
+      <button 
+            class="next-button" 
+            (click)="nextPage()" 
+            [disabled]="currentPage === totalPages">
+            Next <span>›</span>
+      </button>
+    </div>
+  </main>
+</body>

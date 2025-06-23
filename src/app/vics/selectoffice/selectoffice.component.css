@@ -1,0 +1,121 @@
+/* Office selection page styles */
+.search-container {
+    margin: 0 auto 40px;
+    max-width: 1100px;
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background: white;
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+    color: #b22234;
+    margin-right: 10px;
+}
+
+.search-box input[type="text"] {
+    width: 100%;
+    padding: 15px 0;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #b22234;
+}
+
+.offices-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 50px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.office-container {
+    padding: 5px;
+}
+
+.office-button {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid #b22234;
+    border-radius: 5px;
+    padding: 5px 5px;
+    font-size: 20px;
+    color: #b22234;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.office-button:hover {
+    background-color: #ffe5e5;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.page-button, .next-button {
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.page-button {
+    background-color: #ffd6d6;
+    color: #b22234;
+    min-width: 40px;
+}
+
+.page-button.active {
+    background-color: #b22234;
+    color: white;
+}
+
+.next-button {
+    background-color: white;
+    color: #b22234;
+    border: 1px solid #b22234;
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.next-button span {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.page-button:hover, .next-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background-color: #fff;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    text-align: center;
+}
