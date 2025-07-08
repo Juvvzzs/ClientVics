@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WelcompageComponent } from './vics/welcompage/welcompage.component';
 import { SelectofficeComponent } from './vics/selectoffice/selectoffice.component';
 import { CitizenscharterComponent } from './vics/citizenscharter/citizenscharter.component';
-import { CompletionpageComponent } from './vics/completionpage/completionpage.component';
+import { CompletionPageComponent  } from './vics/completionpage/completionpage.component';
 import { UserinputComponent } from './vics/userinput/userinput.component';
 import { MainlayoutComponent } from './vics/vics_layout/mainlayout/mainlayout.component';
 
@@ -36,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: 'completion-page',
-    component: CompletionpageComponent 
+    component: CompletionPageComponent  
   },
   {
     path: '**',

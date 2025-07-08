@@ -8,11 +8,8 @@ import { catchError, switchMap } from 'rxjs/operators';
 })
 export class ApiVisitService {
  
-  // JSONBIN.IO MOCK API ANG NAGAMIT 
-  // CHANGE IT INTO LOCALHOST MODIFY GAMAY 
 
-  private binId = '6843bac08561e97a502086bf';
-  private apiUrl = `https://api.jsonbin.io/v3/b/${this.binId}`;
+  private apiUrl = 'https://localhost:7105/api/v1/VisitorLogs';
 
   constructor(private http: HttpClient) { }
 
@@ -25,23 +22,16 @@ export class ApiVisitService {
 
   // POST new visitor (correct implementation)
   saveVisitorInfo(visitorData: any): Observable<any> {
-    return this.getVisitors().pipe(
-      switchMap((response: any) => {
-        const currentVisitors = response.record.Visitors || [];
-        const updatedVisitors = [...currentVisitors, visitorData];
-        
-        return this.http.put(this.apiUrl, 
-          { Visitors: updatedVisitors },
-          {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json'
-            })
-          }
-        ).pipe(
-          catchError(this.handleError)
-        );
-      })
-    );
+     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJEQVJXRVlST0lFIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTc1MTkzOTc3NSwiZXhwIjoxNzUxOTQzMzc1LCJpYXQiOjE3NTE5Mzk3NzUsImlzcyI6IlRpY2tldGluZ1N5c3RlbSIsImF1ZCI6IlRpY2tldGluZ0NsaWVudHMifQ.ezZ6G0bXXFxEWm8AEiz_vAccmW5NTxK68BIIDRz2C3Y';
+     const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    
+    return this.http.post(this.apiUrl, visitorData, { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: any) {

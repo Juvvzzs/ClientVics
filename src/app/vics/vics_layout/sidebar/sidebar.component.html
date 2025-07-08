@@ -1,35 +1,36 @@
 <div class="d-flex flex-column p-3 h-95" style="background-color:#FFF0F0; color:#AF2532;">
-
   <!-- Search Bar -->
   <div class="mt-4 px-3">
     <div class="input-group w-100 custom-search-bar">
-        <span class="input-group-text">
-            <i class="bi bi-search"></i>
-        </span>
-        <input type="text" class="form-control"placeholder="Search Office"[(ngModel)]="searchText"/>
+      <span class="input-group-text">
+        <i class="bi bi-search"></i>
+      </span>
+      <input type="text" class="form-control" placeholder="Search Office" [(ngModel)]="searchText" />
     </div>
   </div>
-<hr/>
-<div class="scrollable-buttons px-3 mt-3">
+
+  <hr />
+
   <div class="scrollable-buttons px-3 mt-3">
-  <div class="sidebar">
-    <button 
-      *ngFor="let office of filteredOffices"
-      class="btn offices-btn w-100 my-1 text-start"
-      (click)="onSelectOffice(office.page, office.name)"
-      [ngClass]="{
-        'active-btn': office.name === selectedOfficeName,
-        'inactive-btn': office.name !== selectedOfficeName
-      }"
-    >
-      {{ office.name }}
-    </button>
+    <div class="sidebar">
+      @for (office of filteredOffices; track office) {
+        <button
+          class="btn offices-btn w-100 my-1 text-start"
+          (click)="onSelectOffice(office.page, office.name)"
+          [ngClass]="{
+            'active-btn': office.name === selectedOfficeName,
+            'inactive-btn': office.name !== selectedOfficeName
+          }"
+        >
+          {{ office.name }}
+        </button>
+      }
 
-    <div *ngIf="filteredOffices.length === 0" class="text-muted mt-3">
-      No matching office found.
+      @if (filteredOffices.length === 0) {
+        <div class="text-muted mt-3">No matching office found.</div>
+      }
+
+      <hr />
     </div>
-
-    <hr />
   </div>
-</div>
 </div>

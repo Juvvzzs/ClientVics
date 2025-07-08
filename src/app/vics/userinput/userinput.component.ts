@@ -1,15 +1,40 @@
-// userinput.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ApiVisitService } from 'src/app/service/api-visit.service';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+
+import { NavbarComponent } from '../vics_layout/navbar/navbar.component';
+import { FooterComponent } from '../vics_layout/footer/footer.component';
+import { ApiVisitService } from 'src/app/service/api-visit.service';
+
+interface VisitorInfo {
+  Firstname: string;
+  Middlename: string;
+  Lastname: string;
+  Suffix: string;
+  Position: string;
+  Agency: string;
+  Purpose: string;
+  Specificpurpose: string;
+  DateTime: string;
+  CertificateNeeded: string;
+}
 
 @Component({
   selector: 'app-userinput',
+  standalone: true,
+  imports: [
+    NavbarComponent,
+    FooterComponent,
+    FormsModule,
+    NgIf
+  ],
   templateUrl: './userinput.component.html',
   styleUrls: ['./userinput.component.css']
 })
 export class UserinputComponent implements OnInit {
-  visitorInfo = {
+
+  visitorInfo: VisitorInfo = {
     Firstname: '',
     Middlename: '',
     Lastname: '',
@@ -19,149 +44,140 @@ export class UserinputComponent implements OnInit {
     Purpose: '',
     Specificpurpose: '',
     DateTime: '',
-    CertificateNeeded: '',
+    CertificateNeeded: ''
   };
 
+  reviewData: VisitorInfo | null = null;
+
+  loadingCertificate = false;
   loading = false;
   error = '';
   successMessage = '';
   submitting = false;
-  showCertificateModal = false;
-  showReviewModal = false;
   submissionStatus: '' | 'processing' | 'success' | 'error' = '';
   submissionSuccess = false;
+  showReviewModal = false;
+  showCertificateModal = false;
 
   constructor(
-    private ApiVisitService: ApiVisitService,
+    private apiVisitService: ApiVisitService,
     private router: Router
   ) {
-    const now = new Date();
-    this.visitorInfo.DateTime = now.toISOString();
+    this.visitorInfo.DateTime = new Date().toISOString();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  onSubmit() {
-    if (!this.visitorInfo) return;
+  // Final submission logic
+  onSubmit(): void {
+    if (!this.isFormValid()) return;
 
     this.submitting = true;
     this.error = '';
-    this.successMessage = '';
 
-    const uppercasedVisitorInfo = this.uppercaseSelectedFields(this.visitorInfo);
-    
-    this.ApiVisitService.saveVisitorInfo(uppercasedVisitorInfo).subscribe({
-      next: (response) => {
+    // this.successMessage = '';
+
+    const sanitizedData = this.sanitizeVisitorInfo(this.visitorInfo);
+
+    this.apiVisitService.saveVisitorInfo(sanitizedData).subscribe({
+      next: () => {
         this.submissionSuccess = true;
         this.successMessage = 'Visitor information saved successfully!';
-        this.submitting = false;
-        this.showCertificateModal = false;
-        this.showReviewModal = false;
+        // this.resetModals();
       },
       error: (err) => {
         this.submissionSuccess = false;
-        this.error = err.message || 'There was an error saving your information. Please try again.';
+        this.error = err.message || 'There was an error saving your information.';
+      },
+      complete: () => {
         this.submitting = false;
-        this.showCertificateModal = false;
-        this.showReviewModal = false;
       }
     });
   }
 
-  uppercaseSelectedFields(info: any) {
+  // Capitalize selected fields
+  private sanitizeVisitorInfo(info: VisitorInfo): VisitorInfo {
     return {
       ...info,
-      Firstname: info.Firstname?.toUpperCase() || '',
-      Middlename: info.Middlename?.toUpperCase() || '',
-      Lastname: info.Lastname?.toUpperCase() || '',
-      Suffix: info.Suffix?.toUpperCase() || '',
-      Agency: info.Agency?.toUpperCase() || '',
-      Position: info.Position?.toUpperCase() || '',
-      Specificpurpose: info.Specificpurpose?.toUpperCase() || '',
+      Firstname: info.Firstname.toUpperCase(),
+      Middlename: info.Middlename.toUpperCase(),
+      Lastname: info.Lastname.toUpperCase(),
+      Suffix: info.Suffix.toUpperCase(),
+      Position: info.Position.toUpperCase(),
+      Agency: info.Agency.toUpperCase(),
+      Specificpurpose: info.Specificpurpose.toUpperCase()
     };
   }
 
-  handleSuffixChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    if (select.value === 'null') {
-      this.visitorInfo.Suffix = ' ';
+  openReviewModal(): void {
+    if (this.isFormValid()) {
+      this.reviewData = this.sanitizeVisitorInfo(this.visitorInfo);
+      this.showReviewModal = true;
     }
   }
 
-  // In your component class
-getDisplayData() {
-  return this.uppercaseSelectedFields(this.visitorInfo);
-}
-
- // In your component
-reviewData: any;
-
-openReviewModal() {
-  if (this.isFormValid()) {
-    this.reviewData = this.uppercaseSelectedFields(this.visitorInfo);
-    this.showReviewModal = true;
-  }
-}
-
-
-  isFormValid(): boolean {
-  // Check required fields and return boolean directly
-  return !!(
-    this.visitorInfo.Firstname && 
-    this.visitorInfo.Lastname && 
-    this.visitorInfo.Position && 
-    this.visitorInfo.Agency && 
-    this.visitorInfo.Purpose &&
-    (this.visitorInfo.Purpose !== 'OTHER' || this.visitorInfo.Specificpurpose)
-  );
-}
-
-  confirmSubmit() {
+  confirmSubmit(): void {
     this.showReviewModal = false;
     this.showCertificateModal = true;
   }
 
-  editDetails() {
+ confirmCertificate(needsCertificate: boolean): void {
+  this.loadingCertificate = true;
+  this.submitting = true;
+  this.visitorInfo.CertificateNeeded = needsCertificate ? 'Yes' : 'No';
+
+  const sanitizedData = this.sanitizeVisitorInfo(this.visitorInfo);
+
+  this.apiVisitService.saveVisitorInfo(sanitizedData).subscribe({
+    next: () => {
+      this.successMessage = 'Visitor information saved successfully!';
+      this.router.navigate(['/completion-page']).then(() => {
+        this.showCertificateModal = false;
+        this.loadingCertificate = false;
+      });
+    },
+    error: (err) => {
+      this.error = err.message || 'There was an error saving your information. Please try again.';
+      this.loadingCertificate = false;
+      this.submitting = false;
+    }
+  });
+}
+
+  cancelSubmit(): void {
+    this.showCertificateModal = false;
+  }
+
+  editDetails(): void {
     this.showReviewModal = false;
   }
 
-  confirmCertificate(needsCertificate: boolean) {
-    this.visitorInfo.CertificateNeeded = needsCertificate ? 'Yes' : 'No';
-    this.showCertificateModal = false;
-    
-    // Show processing state
-    this.submissionStatus = 'processing';
-    this.submitting = true;
-
-    this.onSubmit();
-
-    setTimeout(() => {
-      if (this.submissionSuccess) {
-        this.submissionStatus = 'success';
-        
-        setTimeout(() => {
-          this.router.navigate(['/completion-page']);
-        }, 2000);
-      } else {
-        this.submissionStatus = 'error';
-        this.submitting = false;
-        
-        setTimeout(() => {
-          this.submissionStatus = '';
-        }, 5000);
-      }
-    }, 3000);
-  }
-
-  cancelSubmit() {
-    this.showCertificateModal = false;
-  }
-
-  confirmBack() {
+  confirmBack(): void {
     const confirmed = confirm("Are you sure you want to go back? Your input will be lost.");
     if (confirmed) {
       this.router.navigate(['/welcomepage']);
     }
+  }
+
+  isFormValid(): boolean {
+    const info = this.visitorInfo;
+    return !!(
+      info.Firstname &&
+      info.Lastname &&
+      info.Position &&
+      info.Agency &&
+      info.Purpose &&
+      (info.Purpose !== 'OTHER' || info.Specificpurpose)
+    );
+  }
+
+  getDisplayData(): VisitorInfo {
+    return this.sanitizeVisitorInfo(this.visitorInfo);
+  }
+
+  private resetModals(): void {
+    this.showReviewModal = false;
+    this.showCertificateModal = false;
   }
 
   onInputChange(event: Event): void {
