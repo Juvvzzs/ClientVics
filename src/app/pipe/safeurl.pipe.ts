@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Pipe({
-  name: 'safeurl'
+  name: 'safeurl',
+  standalone : true
 })
 export class SafeurlPipe implements PipeTransform {
 

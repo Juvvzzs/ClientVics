@@ -1,248 +1,201 @@
-<app-navbar> </app-navbar> 
-   <div class="container justify-content-center">
-      <div class="text-center" style="margin-top: 20px; margin-bottom: 20px;">
-        <h1 style="color: #AF2532; font-size: 40px; text-decoration: solid;">Visitor Information</h1>
-        <p class="info-text">Please provide your details below.</p>
-      </div>  
-        <div class="visitor-form">
-          <form #visitorForm="ngForm" (ngSubmit)="onSubmit()" noValidate>
-                <div class="form-group">
-                  <label for="firstName">First Name:*</label>
-                  <input type="text" style="text-transform: uppercase;" id="firstName" [(ngModel)]="visitorInfo.Firstname"
-                    name="firstName" required
-                    placeholder="e.g., Juan" #firstName="ngModel" autocomplete="off"/>
-                  <div *ngIf="firstName.invalid && firstName.touched" class="validation-error">
-                    First name is required.
-                  </div>
-                </div>
+<app-navbar></app-navbar>
 
-                <div class="form-group">
-                  <label for="middleInitial">Middle Initial:</label>
-                  <input
-                    type="text"
-                    style="text-transform: uppercase;"
-                    id="middleInitial"
-                    [(ngModel)]="visitorInfo.Middlename"
-                    name="middleInitial"
-                    maxlength="2"
-                    placeholder="e.g., D." autocomplete="off"
-                  />
-                </div>
-                
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="lastName">Last Name:*</label>
-                    <input
-                      type="text"
-                      style="text-transform: uppercase;"
-                      id="lastName"
-                      [(ngModel)]="visitorInfo.Lastname"
-                      name="lastName"
-                      required
-                      placeholder="e.g., Cruz"
-                      #lastName="ngModel" autocomplete="off"
-                    />
-                    <div *ngIf="lastName.invalid && lastName.touched" class="validation-error">
-                      Last name is required.
-                    </div>
-                  </div>
-
-                  <div class="form-group suffix">
-                    <label for="suffixName">Suffix Name:</label>
-                    <select
-                        id="suffixName"
-                        [(ngModel)]="visitorInfo.Suffix"
-                        name="suffixName"
-                        style="text-transform: uppercase;">
-                        <option value=" ">None</option>
-                        <option value="JR">JR</option>
-                        <option value="SR">SR</option>
-                        <option value="II">II</option>
-                        <option value="III">III</option>
-                        <option value="IV">IV</option>
-                        <option value="V">V</option>
-                      </select>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="position">Position:*</label>
-                  <input
-                    type="text"
-                    style="text-transform: uppercase;"
-                    id="position"
-                    [(ngModel)]="visitorInfo.Position"
-                    name="position"
-                    required
-                    placeholder="e.g., PG Dept Head"
-                    #position="ngModel" autocomplete="off"
-                  />
-                  <div *ngIf="position.invalid && position.touched" class="validation-error">
-                    Position is required.
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="agency">Agency/Organization:*</label>
-                  <input
-                    type="text"
-                    style="text-transform: uppercase;"
-                    id="agency"
-                    [(ngModel)]="visitorInfo.Agency"
-                    name="agency"
-                    required
-                    placeholder="e.g., PLGU Davao Del Norte"
-                    #agency="ngModel" autocomplete="off"
-                  />
-                  <div *ngIf="agency.invalid && agency.touched" class="validation-error">
-                    Agency is required.
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="purpose">Purpose of Visit:*</label>
-                  <select
-                    id="purpose"
-                    [(ngModel)]="visitorInfo.Purpose"
-                    name="purpose"
-                    required
-                    #purpose="ngModel"
-                  >
-                    <option value="" disabled selected>-- Please Select Purpose --</option>
-                    <option value="CONFER">CONFER</option>
-                    <option value="INQUIRY">INQUIRY</option>
-                    <option value="FOLLOW-UP">FOLLOW-UP</option>
-                    <option value="CONFER/INQUIRY/FOLLOW-UP">CONFER/INQUIRY/FOLLOW-UP</option>
-                    <option value="MEETING">MEETING</option>
-                    <option value="OFFICIAL-BUSINESS">OFFICIAL BUSINESS</option>
-                    <option value="DELIVERY">DELIVERY</option>
-                    <option value="PERSONAL-MATTER">PERSONAL MATTER</option>
-                    <option value="OTHER">OTHER</option>
-                  </select>
-                  <div *ngIf="purpose.invalid && purpose.touched" class="validation-error">
-                    Purpose is required.
-                  </div>
-                </div>
-
-                <div class="form-group" *ngIf="visitorInfo.Purpose === 'OTHER'">
-                  <label for="customPurpose">Please specify your purpose of visit:*</label>
-                  <input
-                    type="text"
-                    style="text-transform: uppercase;"
-                    id="customPurpose"
-                    [(ngModel)]="visitorInfo.Specificpurpose"
-                    name="customPurpose"
-                    required
-                    placeholder="Enter your purpose"
-                    #customPurpose="ngModel" autocomplete="off"
-                  />
-                  <div *ngIf="customPurpose.invalid && customPurpose.touched" class="validation-error">
-                    Please specify your custom purpose.
-                  </div>
-                </div>
-            
-                <!-- Error/Success messages -->
-                <div *ngIf="error" class="alert alert-danger" style="color: red; font-weight: bold;">
-                  {{ error }}
-                </div>
-
-                 <div class="buttons-container d-flex justify-space-between">
-                  <button type="button" class="back-btn" (click)="confirmBack()">BACK</button>
-                  <button type="button" (click)="openReviewModal()"
-                    class="submit-btn" [disabled]="!visitorForm.valid || submitting">
-                    {{ submitting ? 'SUBMITTING...' : 'SUBMIT' }}
-                  </button>
-                </div>
-
-   <!-- Review Modal -->
-<div class="modal-overlay" *ngIf="showReviewModal" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
-  <div class="modal-content" style="max-width: 90%; width: 600px;">
-    <h2 id="review-modal-title" style="color: #AF2532; margin-bottom: 25px; font-size: 28px; line-height: 1.3;">
-      <i class="fas fa-clipboard-check" aria-hidden="true" style="margin-right: 10px;"></i>
-      Please Review Your Information
-    </h2>
-    
-    <div class="review-container" style="background: #f8f8f8; border-radius: 8px; padding: 20px;">
-      <!-- Name Row -->
-      <div class="review-row" style="display: flex; margin-bottom: 15px; align-items: baseline;">
-        <span class="review-label" style="font-size:15px; color: #333; min-width: 200px;">
-          <i class="fas fa-user" aria-hidden="true" style="margin-right: 10px; color: #AF2532;"></i>
-          Name:
-        </span>
-        <span class="review-value" style="font-size: 20px; color: #000;">
-          {{ getDisplayData().Firstname }} 
-          {{ getDisplayData().Middlename }} 
-          {{ getDisplayData().Lastname }}
-          {{ getDisplayData().Suffix }}
-        </span>
-      </div>
-      
-      <!-- Position Row -->
-      <div class="review-row" style="display: flex; margin-bottom: 15px; align-items: baseline;">
-        <span class="review-label" style="font-size: 15px; color: #333; min-width: 200px;">
-          <i class="fas fa-briefcase" aria-hidden="true" style="margin-right: 10px; color: #AF2532;"></i>
-          Position:
-        </span>
-        <span class="review-value" style="font-size: 20px; color: #000;">
-          {{ getDisplayData().Position || 'Not provided' }}
-        </span>
-      </div>
-      
-      <!-- Agency Row -->
-      <div class="review-row" style="display: flex; margin-bottom: 15px; align-items: baseline;">
-        <span class="review-label" style="font-size: 15px; color: #333; min-width: 200px;">
-          <i class="fas fa-building" aria-hidden="true" style="margin-right: 10px; color: #AF2532;"></i>
-          Agency:
-        </span>
-        <span class="review-value" style="font-size: 20px; color: #000;">
-          {{ getDisplayData().Agency || 'Not provided' }}
-        </span>
-      </div>
-      
-      <!-- Purpose Row -->
-      <div class="review-row" style="display: flex; margin-bottom: 15px; align-items: baseline;">
-        <span class="review-label" style="font-size: 15px; color: #333; min-width: 200px;">
-          <i class="fas fa-clipboard-list" aria-hidden="true" style="margin-right: 10px; color: #AF2532;"></i>
-          Purpose of Visit:
-        </span>
-        <span class="review-value" style="font-size: 20px; color: #000;">
-          {{ getDisplayData().Purpose }}
-          <span *ngIf="getDisplayData().Specificpurpose" style="display: block; margin-top: 5px;">
-            {{ getDisplayData().Specificpurpose }}
-          </span>
-        </span>
-      </div>
-    </div>
-
-    <div style="background: #fff8e1; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #ffc107;">
-      <p style="margin: 0; font-size: 18px; color: #856404;">
-        <i class="fas fa-info-circle" style="margin-right: 10px; color: #ffc107;"></i>
-        For certificates or any concerns, please proceed to the front desk after submission.
-      </p>
-    </div>
-
-    <div class="modal-actions" style="margin-top: 30px;">
-      <button (click)="editDetails()" class="back-btn" style="padding: 15px 30px; font-size: 20px;">
-        <i class="fas fa-edit" aria-hidden="true"></i> Make Changes
-      </button>
-      <button (click)="confirmSubmit()" class="submit-btn" style="padding: 15px 30px; font-size: 20px;">
-        <i class="fas fa-check-circle" aria-hidden="true"></i> Confirm & Submit
-      </button>
-    </div>
+<div class="container mt-5 mb-5">
+  <div class="text-center mb-4">
+    <h1 class="text-danger display-5">Visitor Information</h1>
+    <p class="lead">Please provide your details below.</p>
   </div>
-</div>
-      <!-- Certificate Modal (existing) -->
-      <div class="modal-overlay" *ngIf="showCertificateModal">
-        <div class="modal-content">
-          <h1 style="color: #AF2532;">Do you need a certificate of appearance?</h1>
-          <div class="modal-actions ">
-            <button (click)="confirmCertificate(false)" class="back-btn">No</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button (click)="confirmCertificate(true)" class="submit-btn">Yes</button>
-          </div>
+
+  <div class="visitor-form">
+    <form #visitorForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- First Name -->
+      <div class="mb-3">
+        <label for="firstName" class="form-label">First Name:*</label>
+        <input id="firstName" name="firstName" type="text" class="form-control" [(ngModel)]="visitorInfo.Firstname"
+          style="text-transform: uppercase;" autocomplete="off" required #firstName="ngModel" />
+        <div *ngIf="firstName.invalid && firstName.touched" class="text-danger small">
+          First name is required.
         </div>
       </div>
+
+      <!-- Middle Initial -->
+      <div class="mb-3">
+        <label for="middleInitial" class="form-label">Middle Name:</label>
+        <input id="middleInitial" name="middleInitial" type="text" class="form-control"
+          [(ngModel)]="visitorInfo.Middlename" style="text-transform: uppercase;" autocomplete="off" />
+      </div>
+
+      <!-- Last Name and Suffix -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label for="lastName" class="form-label">Last Name:*</label>
+          <input id="lastName" name="lastName" type="text" class="form-control" [(ngModel)]="visitorInfo.Lastname"
+            style="text-transform: uppercase;" autocomplete="off" required #lastName="ngModel" />
+          <div *ngIf="lastName.invalid && lastName.touched" class="text-danger small">
+            Last name is required.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="suffixName" class="form-label">Suffix Name:</label>
+          <select id="suffixName" name="suffixName" class="form-select" [(ngModel)]="visitorInfo.Suffix"
+            style="text-transform: uppercase;">
+            <option value=" ">None</option>
+            <option value="JR">JR</option>
+            <option value="SR">SR</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+            <option value="V">V</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Position -->
+      <div class="mb-3">
+        <label for="position" class="form-label">Position:*</label>
+        <input id="position" name="position" type="text" class="form-control" [(ngModel)]="visitorInfo.Position"
+          style="text-transform: uppercase;" autocomplete="off" required #position="ngModel" />
+        <div *ngIf="position.invalid && position.touched" class="text-danger small">
+          Position is required.
+        </div>
+      </div>
+
+      <!-- Agency -->
+      <div class="mb-3">
+        <label for="agency" class="form-label">Agency/Organization:*</label>
+        <input id="agency" name="agency" type="text" class="form-control" [(ngModel)]="visitorInfo.Agency"
+          style="text-transform: uppercase;" autocomplete="off" required #agency="ngModel" />
+        <div *ngIf="agency.invalid && agency.touched" class="text-danger small">
+          Agency is required.
+        </div>
+      </div>
+
+      <!-- Purpose -->
+      <div class="mb-3">
+        <label for="purpose" class="form-label">Purpose of Visit:*</label>
+        <select id="purpose" name="purpose" class="form-select" [(ngModel)]="visitorInfo.Purpose" required
+          #purpose="ngModel">
+          <option value="" disabled selected>-- Please Select Purpose --</option>
+          <option value="CONFER">CONFER</option>
+          <option value="INQUIRY">INQUIRY</option>
+          <option value="FOLLOW-UP">FOLLOW-UP</option>
+          <option value="CONFER/INQUIRY/FOLLOW-UP">CONFER/INQUIRY/FOLLOW-UP</option>
+          <option value="MEETING">MEETING</option>
+          <option value="OFFICIAL-BUSINESS">OFFICIAL BUSINESS</option>
+          <option value="DELIVERY">DELIVERY</option>
+          <option value="PERSONAL-MATTER">PERSONAL MATTER</option>
+          <option value="OTHER">OTHER</option>
+        </select>
+        <div *ngIf="purpose.invalid && purpose.touched" class="text-danger small">
+          Purpose is required.
+        </div>
+      </div>
+
+      <!-- Custom Purpose if 'OTHER' -->
+      <div class="mb-3" *ngIf="visitorInfo.Purpose === 'OTHER'">
+        <label for="customPurpose" class="form-label">Please specify your purpose of visit:*</label>
+        <input id="customPurpose" name="customPurpose" type="text" class="form-control"
+          [(ngModel)]="visitorInfo.Specificpurpose" style="text-transform: uppercase;" autocomplete="off" required
+          #customPurpose="ngModel" />
+        <div *ngIf="customPurpose.invalid && customPurpose.touched" class="text-danger small">
+          Please specify your custom purpose.
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="alert alert-danger mt-3 fw-bold">
+        {{ error }}
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-secondary" (click)="confirmBack()">
+          BACK
+        </button>
+        <button type="button" [disabled]="!visitorForm.form.valid || submitting" (click)="openReviewModal()"
+          class="submit-btn">
+          {{ submitting ? 'Submitting...' : 'Confirm & Submit' }}
+        </button>
+      </div>
     </form>
-  </div>  
+
+    <div class="modal-overlay" *ngIf="showReviewModal" role="dialog" aria-modal="true"
+      aria-labelledby="review-modal-title">
+      <div class="modal-content review-modal">
+        <h2 id="review-modal-title" class="modal-title">
+          <i class="fas fa-clipboard-check" aria-hidden="true"></i> Please Review Your Information
+        </h2>
+
+        <div *ngIf="submitting" class="alert alert-info">Processing your request, please wait...</div>
+        <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+        <div class="review-container">
+          <div class="review-row">
+            <span class="review-label"><i class="fas fa-user"></i> Name:</span>
+            <span class="review-value">
+              {{ getDisplayData().Firstname }} {{ getDisplayData().Middlename }} {{ getDisplayData().Lastname }} {{
+              getDisplayData().Suffix }}
+            </span>
+          </div>
+
+          <div class="review-row">
+            <span class="review-label"><i class="fas fa-briefcase"></i> Position:</span>
+            <span class="review-value">{{ getDisplayData().Position || 'Not provided' }}</span>
+          </div>
+
+          <div class="review-row">
+            <span class="review-label"><i class="fas fa-building"></i> Agency:</span>
+            <span class="review-value">{{ getDisplayData().Agency || 'Not provided' }}</span>
+          </div>
+
+          <div class="review-row">
+            <span class="review-label"><i class="fas fa-clipboard-list"></i> Purpose of Visit:</span>
+            <span class="review-value">
+              {{ getDisplayData().Purpose }}
+              <div *ngIf="getDisplayData().Specificpurpose">{{ getDisplayData().Specificpurpose }}</div>
+            </span>
+          </div>
+        </div>
+
+        <div class="review-note">
+          <p><i class="fas fa-info-circle"></i> For certificates or any concerns, please proceed to the front desk after
+            submission.</p>
+        </div>
+
+        <div class="modal-actions">
+          <button (click)="editDetails()" class="back-btn"><i class="fas fa-edit"></i> Make Changes</button>
+          <button (click)="confirmSubmit()" class="submit-btn"><i class="fas fa-check-circle"></i> Confirm &
+            Submit</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Certificate Modal (existing) -->
+    <div class="modal-overlay" *ngIf="showCertificateModal">
+      <div class="modal-content">
+        <ng-container *ngIf="!loadingCertificate; else loading">
+          <h2 style="color: #AF2532;">Do you need a certificate of appearance?</h2>
+          <div class="modal-actions">
+            <button (click)="confirmCertificate(false)" class="back-btn">No</button>
+            <button (click)="confirmCertificate(true)" class="submit-btn">Yes</button>
+          </div>
+        </ng-container>
+
+        <ng-template #loading>
+          <div class="loading-container text-center">
+            <div class="spinner-border text-danger" role="status">
+            </div>
+            <p style="margin-top: 1rem;">Submitting, please wait...</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+
+  </div>
 </div>
+
 <app-footer></app-footer>

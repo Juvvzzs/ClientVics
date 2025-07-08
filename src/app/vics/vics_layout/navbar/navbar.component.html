@@ -2,7 +2,9 @@
   <div class="container-fluid position-relative w-100 d-flex justify-content-between align-items-center">
     <!-- ( logo placeholder) -->
   <div style="width: 150px; height: 45spx; display: flex; justify-content: center; align-items: center;">
-     <img src="assets/logo/VICS-logo-white.png" class="img-fluid" style="max-width: 60%;">
+    <a [routerLink]="['/welcomepage']" style="display: flex; align-items: center;">
+     <img width="90px" height="27px" src="assets/logo/VICS-logo-white.png" class="img-fluid">
+     </a>
   </div>
     <!-- Center Title using absolute positioning -->
     <div class="position-absolute start-50 translate-middle-x">
@@ -12,7 +14,7 @@
    <div class="text-white small text-end">
     Contact No: 09209745783<br>
     Email: phrmo&#64;davaodelnorte.gov.ph
-  </div>
+  </div>    
   </div>
 </nav>
 
