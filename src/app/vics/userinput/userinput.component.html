@@ -55,8 +55,14 @@
       <!-- Position -->
       <div class="mb-3">
         <label for="position" class="form-label">Position:*</label>
-        <input id="position" name="position" type="text" class="form-control" [(ngModel)]="visitorInfo.Position"
-          style="text-transform: uppercase;" autocomplete="off" required #position="ngModel" />
+         <select id="position" name="position" class="form-select" [(ngModel)]="visitorInfo.Position" required
+          #position="ngModel">
+          <option value="" disabled selected>-- Please Select Purpose --</option>
+          <option value="WALK-IN VISITOR">WALK-IN VISITOR</option>
+          <option value="GOVERNMENT EMPLOYEE">GOVERNMENT EMPLOYEE</option>
+        </select>
+        <!-- <input id="position" name="position" type="text" class="form-control" [(ngModel)]="visitorInfo.Position"
+          style="text-transform: uppercase;" autocomplete="off" required #position="ngModel" /> -->
         <div *ngIf="position.invalid && position.touched" class="text-danger small">
           Position is required.
         </div>
@@ -78,15 +84,15 @@
         <select id="purpose" name="purpose" class="form-select" [(ngModel)]="visitorInfo.Purpose" required
           #purpose="ngModel">
           <option value="" disabled selected>-- Please Select Purpose --</option>
+          <option value="BENCHMARK">BENCHMARK</option>
           <option value="CONFER">CONFER</option>
+           <option value="DELIVERY">DELIVERY</option>
+           <option value="FOLLOW-UP">FOLLOW-UP</option>
           <option value="INQUIRY">INQUIRY</option>
-          <option value="FOLLOW-UP">FOLLOW-UP</option>
-          <option value="CONFER/INQUIRY/FOLLOW-UP">CONFER/INQUIRY/FOLLOW-UP</option>
           <option value="MEETING">MEETING</option>
           <option value="OFFICIAL-BUSINESS">OFFICIAL BUSINESS</option>
-          <option value="DELIVERY">DELIVERY</option>
           <option value="PERSONAL-MATTER">PERSONAL MATTER</option>
-          <option value="OTHER">OTHER</option>
+          <!-- <option value="OTHER">OTHER</option> -->
         </select>
         <div *ngIf="purpose.invalid && purpose.touched" class="text-danger small">
           Purpose is required.
