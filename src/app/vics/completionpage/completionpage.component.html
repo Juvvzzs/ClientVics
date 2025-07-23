@@ -1,36 +1,50 @@
-<app-navbar> </app-navbar> 
+<app-navbar> </app-navbar>
 <main class="certificate-main">
   <!-- Processing Screen -->
-  <div *ngIf="state === 'processing'">
-    <h1>Processing Certificate Request</h1>
-    <div class="processing-container">
-      <div class="loader"></div>
-      <p class="processing-text">Your request is being processed.</p>
-      <p class="instruction-text">Please wait for staff assistance or further instructions.</p>
+  <!-- @if (state === 'processing') {
+    <div>
+      <h1>Processing Certificate Request</h1>
+      <div class="processing-container">
+        <div class="loader"></div>
+        <p class="processing-text">Your request is being processed.</p>
+        <p class="instruction-text">Please wait for staff assistance or further instructions.</p>
+      </div>
+      <div class="border-bottom"></div>
     </div>
-    <div class="border-bottom"></div>
-  </div>
+  } -->
 
   <!-- Completion Screen -->
-  <div *ngIf="state === 'complete'">
+  <!-- @if (state === 'complete') {
+    <div>
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#4CAF50" stroke-width="2"/>
+        <path class="checkmark-check" fill="none" stroke="#4CAF50" stroke-width="3" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+      <h1 class="completion-heading">Registration Complete!</h1>
+      <p class="thank-you-text">
+        Thank you for registering your visit
+      </p>
+      @if (withCertificate) {
+        <p class="certificate-info">Your Certificate of Appearance will be provided shortly.</p>
+      }
+      <button class="finish-btn" [routerLink]="['/welcomepage']">FINISH</button>
+      <div class="border-bottom"></div>
+    </div>
+  } -->
+
+<div>
     <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
       <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#4CAF50" stroke-width="2"/>
       <path class="checkmark-check" fill="none" stroke="#4CAF50" stroke-width="3" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
     </svg>
-
     <h1 class="completion-heading">Registration Complete!</h1>
-    
-    <p class="thank-you-text">
-      Thank you for registering your visit
+    <p class="thank-you-text">Thank you for registering your visit</p>
+    <p *ngIf="withCertificate" class="certificate-info">
+      Your Certificate of Appearance will be provided shortly.
     </p>
-
-    <ng-container *ngIf="withCertificate">
-      <p class="certificate-info">Your Certificate of Appearance will be provided shortly.</p>
-    </ng-container>
-
-    <button class="finish-btn" routerLink="/welcomepage">FINISH</button>
-
+    <button class="finish-btn" [routerLink]="['/welcomepage']">FINISH</button>
     <div class="border-bottom"></div>
   </div>
-</main>
+
+</main>   
 <app-footer></app-footer>

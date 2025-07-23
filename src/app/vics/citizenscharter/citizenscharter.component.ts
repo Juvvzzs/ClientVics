@@ -1,40 +1,89 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PdfservicesService } from 'src/app/service/pdfservices.service'; // Adjust the import path as necessary
+import { filter } from 'rxjs/operators';
+import { PdfservicesService } from 'src/app/service/pdfservices.service';
+import { SafeurlPipe } from 'src/app/pipe/safeurl.pipe';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-citizenscharter',
   templateUrl: './citizenscharter.component.html',
   styleUrls: ['./citizenscharter.component.css'],
-
-
+  imports: [
+    SafeurlPipe,
+    FormsModule,
+    RouterModule,
+    NgIf
+  ]
 })
-export class CitizenscharterComponent {
-pdfSrc: string | null = null;
-  private subscription: Subscription | undefined;
 
-  constructor(private PdfservicesServices: PdfservicesService) {}
+export class CitizenscharterComponent implements OnInit, OnDestroy {
+  pdfSrc: string | null = null;
+  selectedOffice: string | null = null;
+  private subscription: Subscription | null = null;
+  iframeKey = 0;
+  showIframe = false;
 
- selectedOffice: string | null = null;
+  private routeSubscription?: Subscription;
+  private selectionSubscription?: Subscription;
 
-    ngOnInit(): void {
-      this.pdfSrc = `assets/pdf/CITIZEN CHARTER.pdf#page=1&zoom=64`;
-  // this.pdfSrc = `assets/pdf/CITIZEN CHARTER.pdf#page=1&zoom=57`;
-      this.subscription = this.PdfservicesServices.selection$.subscribe(selection => {
-      if (selection !== null) {
+  constructor(
+    private router: Router,
+    private pdfService: PdfservicesService
+  ) {}
+
+  ngOnInit(): void {
+
+     this.subscription = this.pdfService.selection$.subscribe(selection => {
+    if (selection !== null) {
       this.selectedOffice = selection.name;
-    
-
-      // reload
-      this.pdfSrc = null;
-      setTimeout(() => {
-        this.pdfSrc = `assets/pdf/CITIZEN CHARTER.pdf#page=${selection.page}&t=${new Date().getTime()}&zoom=64`;
-      }, 15);
+      this.setPdfPage(selection.page);
     }
   });
+
+    setTimeout(() => this.resetPdf(2), 0);
+
+    this.selectionSubscription = this.pdfService.selection$.subscribe(selection => {
+      if (selection !== null) {
+        this.selectedOffice = selection.name;
+        this.resetPdf(selection.page);
+      }
+    });
+
+    this.routeSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(event => {
+        if ((event as NavigationEnd).urlAfterRedirects.includes('/citizenscharter')) {
+          this.resetPdf(1);
+        }
+      });
+  }
+
+resetPdf(page: number): void {
+  this.showIframe = false;
+  this.pdfSrc = null;
+
+  setTimeout(() => {
+    this.pdfSrc = `assets/pdf/CITIZEN CHARTER.pdf#page=${page}&zoom=64&t=${Date.now()}`;
+    this.showIframe = true;
+  }, 100);
+}
+
+setPdfPage(page: number): void {
+  this.showIframe = false;
+  this.pdfSrc = null;
+
+  setTimeout(() => {
+    this.pdfSrc = `assets/pdf/CITIZEN CHARTER.pdf#page=${page}&zoom=64&t=${Date.now()}`;
+    this.showIframe = true;
+  }, 100);
 }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.selectionSubscription?.unsubscribe();
+    this.routeSubscription?.unsubscribe();
   }
 }

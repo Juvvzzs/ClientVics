@@ -2,17 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiVisitService {
  
-  // JSONBIN.IO MOCK API ANG NAGAMIT 
-  // CHANGE IT INTO LOCALHOST MODIFY GAMAY 
 
-  private binId = '6843bac08561e97a502086bf';
-  private apiUrl = `https://api.jsonbin.io/v3/b/${this.binId}`;
+  private apiUrl = environment.apiUrl; // Use the environment variable for API URL
 
   constructor(private http: HttpClient) { }
 
@@ -25,23 +23,11 @@ export class ApiVisitService {
 
   // POST new visitor (correct implementation)
   saveVisitorInfo(visitorData: any): Observable<any> {
-    return this.getVisitors().pipe(
-      switchMap((response: any) => {
-        const currentVisitors = response.record.Visitors || [];
-        const updatedVisitors = [...currentVisitors, visitorData];
-        
-        return this.http.put(this.apiUrl, 
-          { Visitors: updatedVisitors },
-          {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json'
-            })
-          }
-        ).pipe(
-          catchError(this.handleError)
-        );
-      })
-    );
+   
+    return this.http.post(`${this.apiUrl}/v1/VisitorLogs`, visitorData, )
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: any) {

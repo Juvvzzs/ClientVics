@@ -1,23 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PdfservicesService } from 'src/app/service/pdfservices.service';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
+  standalone: true,
   selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  templateUrl: './sidebar.component.html',  
+  styleUrls: ['./sidebar.component.css'],
+  imports: [FormsModule, CommonModule],
 })
-export class SidebarComponent {
-  
-constructor(private PdfservicesService: PdfservicesService) {}
+export class SidebarComponent implements OnInit, OnDestroy {
+  searchText = '';
+  selectedOfficeName = '';
+  subscription?: Subscription;
 
-  searchText: string = '';
-  selectedOfficeName: string = '';
-  private subscription: Subscription | undefined;
-
-  offices: { name: string, page: number }[] = [
-    
-    { name: 'List of Offices, Address and Contact Information', page: 585},
+  offices = [
+    { name: 'List of Offices, Address and Contact Information', page: 585 },
     { name: 'Provincial Government Office (PGO)', page: 14 },
     { name: 'Provincial Government Office - Internal Audit Services Division (PGO - IASD)', page: 23 },
     { name: "Provicial Governor's Offince - Provincial Disability Affairs Division (PGO - PDAD)", page: 33 },
@@ -53,29 +55,37 @@ constructor(private PdfservicesService: PdfservicesService) {}
     { name: 'Provincial Disaster Risk Reduction and Management Office (PDRRMO)', page: 548 },
     { name: "Vice-Governor's Office (VGO)", page: 570 },
     { name: 'Sangguniang Panlalawigan Office (SPO)', page: 576 },
-    { name: 'Office of the Secretary to the Sanggunian (OSS)', page: 578  },
+    { name: 'Office of the Secretary to the Sanggunian (OSS)', page: 578 },
   ];
 
-  onSelectOffice(page: number, name: string): void {
-  this.PdfservicesService.setOfficeSelection(page, name);
-  this.selectedOfficeName = name;
-}
-  // This will filter the displayed list in real-time
-    get filteredOffices() {
-      const search = this.searchText.toLowerCase();
-      return this.offices.filter(office =>
-      office.name.toLowerCase().includes(search)
-  );
-}
- ngOnInit(): void {
+  constructor(private PdfservicesService: PdfservicesService, private router: Router) {}
+
+  ngOnInit(): void {
     this.subscription = this.PdfservicesService.selection$.subscribe(selection => {
-      if (selection) {
-        this.selectedOfficeName = selection.name;
-      }
+      if (selection) this.selectedOfficeName = selection.name;
+    });
+
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(e => {
+      if ((e as NavigationEnd).urlAfterRedirects.includes('/citizenscharter')) this.resetSidebar();
     });
   }
-ngOnDestroy(): void {
+
+  get filteredOffices() {
+    const search = this.searchText.toLowerCase();
+    return this.offices.filter(office => office.name.toLowerCase().includes(search));
+  }
+
+  onSelectOffice(page: number, name: string): void {
+    this.PdfservicesService.setOfficeSelection(page, name);
+    this.selectedOfficeName = name;
+  }
+
+  resetSidebar(): void {
+    this.searchText = '';
+    this.selectedOfficeName = '';
+  }
+
+  ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 }
-

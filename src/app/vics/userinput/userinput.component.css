@@ -195,3 +195,109 @@ main {
   background-color: #dc3545;
   color: white;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 9999;
+}
+
+.modal-content.review-modal {
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  padding: 1.5rem;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.modal-title {
+  font-size: 24px;
+  color: #AF2532;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.review-container {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.review-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.review-label {
+  flex: 1 1 100%;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #AF2532;
+}
+
+.review-value {
+  flex: 1 1 100%;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.review-note {
+  background: #fff8e1;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border-left: 4px solid #ffc107;
+  color: #856404;
+  font-size: 0.95rem;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.modal-actions button {
+  font-size: 1rem;
+  padding: 12px;
+}
+
+@media (min-width: 576px) {
+  .review-label, .review-value {
+    flex: 1 1 50%;
+  }
+
+  .modal-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #AF2532;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+

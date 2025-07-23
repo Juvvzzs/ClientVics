@@ -1,9 +1,17 @@
 import { Component } from '@angular/core';
+import { NavbarComponent } from '../vics_layout/navbar/navbar.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    NavbarComponent,
+    FormsModule
+  ],
   selector: 'app-selectoffice',
   templateUrl: './selectoffice.component.html',
   styleUrls: ['./selectoffice.component.css']
+
 })
 export class SelectofficeComponent {
 
